@@ -6,6 +6,7 @@ import string
 import time
 
 # 22 total categories as of November 18, 2018
+# 37 total categories as of June 4, 2019
 num_categories = 22
 item_ids = {}
 item_graphs = {}
@@ -29,19 +30,15 @@ def scrape_graphs():
             parsed_json = json.loads(html)
             
             # Sorted for order
-            day_count = 1
-            new_daily = {}
-            for x in sorted(parsed_json["daily"]):
+            day_count = 1 # 180 days ago
+            new_daily = {} 
+            # Replace "daily" with "average" to get average instead
+            for x in parsed_json["daily"]: # This shouldn't be sorted. 
                 new_daily[day_count] = parsed_json["daily"][x]
                 day_count += 1
             
-            day_count = 1
-            new_average = {}
-            for x in sorted(parsed_json["average"]):
-                new_average[day_count] = parsed_json["average"][x]
-                day_count += 1
             
-            item_graphs[item_name] = [new_daily, new_average ]
+            item_graphs[item_name] = [new_daily]
         except:
             print("Failed request")
             continue
@@ -55,7 +52,7 @@ def save_to_csv():
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         for name in item_graphs:
             row_dict = {"name":name}
-            for x in sorted(item_graphs[name][0]): # daily is 0, switch to 1 for average
+            for x in item_graphs[name][0]:
                 row_dict[x] = item_graphs[name][0][x]
             writer.writerow(row_dict)
        
