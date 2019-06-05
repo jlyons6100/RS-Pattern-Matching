@@ -32,7 +32,7 @@
 #### Issue 3: Low Resolution Images. Solved by setting dpi 
 #### Issue 4: Rarely a pyplot returns an error when I try to save it as a figure. Solved by wrapping save in a try catch block. Seems that no price change causes this error. Since those don't make for very interesting graphs, it's no loss not to plot them.
 
-### 3. Cleaned data. Completely flat line plots aren't useful. Price doesn't change enough to profit. Also eliminated plots where the price stayed the same for multiple weeks at a time. 
+### 3. Cleaned data. Completely flat line plots aren't useful. Price doesn't change enough to profit. Also eliminated plots where the price stayed the same for multiple weeks at a time. Additionally, highly irregular graphs can indicate special circumstances such as Price Manipulation (Large groups of people artificially raise price to profit) and obsolete items (With the introduction of new better items, some older items are no longer traded) 
 
 ## How to Use:
 
