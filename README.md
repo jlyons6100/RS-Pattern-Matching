@@ -44,6 +44,7 @@
 
 ### Steps:
 
-#### Scrape item names and ids using scrape_items.py.
-#### Scrape item price for the last 180 Days using scrape_graph_info.py
-#### Use machine_learning.py to analyze data (TODO)
+#### 1. Run scrape_items.py (Scrapes full list of RuneScape item names and ids).
+#### 2. Run scrape_graph_info.py(Scrape item price for the last 180 Days) 
+#### 3. Use machine_learning.py to analyze data (TODO)
+#### Warning: Total Categories may change in the future, so change the number of categories in scrape_items.py and scrape_graph_info.py if it does.
