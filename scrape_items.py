@@ -5,8 +5,7 @@ import os.path
 import string
 import time
 
-num_categories = 37
-
+# Category names
 cat_names = ["Miscellaneous","Ammo", "Arrows", "Bolts", "Construction_Materials"
 , "Construction_Projects", "Cooking_Ingredients","Costumes"
 ,"Crafting_Materials","Familiars","Farming_Produce","Fletching_Materials"
@@ -16,31 +15,30 @@ cat_names = ["Miscellaneous","Ammo", "Arrows", "Bolts", "Construction_Materials"
 "Range_Armour","Range_Weapons","Runecrafting","Runes_Spells_Teleports","Seeds","Summoning_Scrolls",
 "Tools_and_Containers","Woodcutting_Products","Pocket_Items"]
 
+max_pages = 1000
+
 # Stores item name and ID for all items on the Grand Exchange (Runescape Stock Market)
 def handle_file_data():
-    for category in range(1, num_categories+1):
+    for category in range(0, len(cat_names)):
         item_ids = {}
         for letter in string.ascii_lowercase:
-            for page in range(1, 1000):
-                #print("Item data: Category "+str(category)+" Letter " +str(letter) +" page "+str(page))
+            for page in range(1, max_pages):
+                while True: # While loop to keep trying to scrape even if your Internet goes in and out
+                    try:
+                        pg = urllib.request.urlopen('http://services.runescape.com/m=itemdb_rs/api/catalogue/items.json?category='
+                        + str(category)+'&alpha='
+                        +letter + '&page='+str(page))
+                        html = pg.read()
+                        break
+                    except:    
+                        pass
                 try:
-                    pg = urllib.request.urlopen('http://services.runescape.com/m=itemdb_rs/api/catalogue/items.json?category='
-                    + str(category)+'&alpha='
-                    +letter + '&page='+str(page))
-                    html = pg.read()
-                except:
-                    time.sleep(100)
-                    pg = urllib.request.urlopen('http://services.runescape.com/m=itemdb_rs/api/catalogue/items.json?category='
-                    + str(category)+'&alpha='
-                    +letter + '&page='+str(page))
-                    html = pg.read()
-                try:
-                    time.sleep(5) # Without pause, Runescape API returns errors, too many requests too fast
+                    time.sleep(5) # Spam API at your own risk
                     parsed_json = json.loads(html)
                     if (len(parsed_json["items"]) == 0):
                         break
-                    print("Success")
                     for item in parsed_json["items"]:
+                        print(item['name'])
                         item_ids[item['name']] = item['id']
                 except:
                     print("FAILED Item data: Category "+str(category)+" Letter " +str(letter) +" page "+str(page))
