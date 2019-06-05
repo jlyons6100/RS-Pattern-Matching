@@ -8,8 +8,7 @@
 ### Related Work
 #### Several other RuneScape players have had similar ideas, but no finished research has been presented on the current version of the game (One paper on Old School RuneScape Grand Exchange, an older version of the game with a completely separate stock market).
 
-### Dataset: The item_graphs contains 38 CSV files, each corresponding to a different category of in-game item. TODO: Add visualizations of data
-Data visualization: https://machinelearningmastery.com/time-series-data-visualization-with-python/
+### Dataset: The item_graphs contains 38 CSV files, each corresponding to a different category of in-game item. Added graph visualizations of data. TODO: Go through each graph and determine which items are even suitable for machine learning. (Clean data)
 
 ### Methods: Complicated to exactly predict the price. Simplified problem statement. Predict whether prices will increase in the next n days, using prices from the past mdays. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. Train model(s) for every item on Grand Exchange. Train model(s) on each category of data. Compare. TODO: Everything here
 
