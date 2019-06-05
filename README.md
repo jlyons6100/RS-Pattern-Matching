@@ -11,7 +11,7 @@
 ### Dataset: The item_graphs contains 38 CSV files, each corresponding to a different category of in-game item. TODO: Add visualizations of data
 Data visualization: https://machinelearningmastery.com/time-series-data-visualization-with-python/
 
-### Methods: Complicated to exactly predict the price. Simplified problem statement. Predict whether prices will increase in the next n days, using prices from the past mdays. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel TODO: Everything here
+### Methods: Complicated to exactly predict the price. Simplified problem statement. Predict whether prices will increase in the next n days, using prices from the past mdays. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. Train model(s) for every item on Grand Exchange. Train model(s) on each category of data. Compare. TODO: Everything here
 
 ### Conclusions: TODO
 
