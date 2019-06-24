@@ -19,6 +19,7 @@
 #### It would be complicated to exactly predict the price. Instead I simplified my problem statement. I will predict whether prices will increase in the next n days, using prices from the past m days. For an individual item, start at 180 days ago. Train using day -180 to day -180+m. Predict on -180+m+n. Repeat. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. As a beginning to ML, I'm not sure that a model trained on all of the data in the Grand Exchange would be more accurate than if I tailored my models to the individual items. I will test out the theory that the ML models are more accurate for single items through the following methods. I will train models for every item on Grand Exchange. Then I'll train model(s) on each category of data (Must normalize data). Finally I'll train models using normalized data from every item at once. No significant difference in % chance of a price increase despite these three approaches, possibly indicating that there aren't many categorical trends or trends for the entire market in the short term. Compare. TODO: Everything here
 
 ### Results: 
+![Table 1](https://github.com/jlyons6100/RS-Pattern-Matching/blob/master/Tables/Table%201.png)
 TODO - Create table of accuracy values for each machine learning model and each value of (m,n).
 Surprisingly, I was completely wrong. The models trained on the entire grand exchange before slightly better than the models trained on categories and individual items. This difference increased with predictions further in the future.
 
