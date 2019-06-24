@@ -41,7 +41,7 @@ models.append(('SVM w/ rbf kernel', SVC(gamma='auto', kernel='rbf')))
 
 m = 2 # Prices from the past m days
 n = 7 # Predict if price increases over the next n days. #Combined needs to factor of 180 
-n_splits = 9 # Number of k-fold splits, decrease this number if it doesn't work due to large m + n size
+n_splits = 10 # Number of k-fold splits, decrease this number if it doesn't work due to large m + n size
 
 def get_data_from_row(row):
     global models

@@ -40,8 +40,8 @@ models.append(('GaussianNB', GaussianNB()))
 models.append(('SVM w/ rbf kernel', SVC(gamma='auto', kernel='rbf')))
 
 m = 2 # Prices from the past m days
-n = 7 # Predict if price increases over the next n days. #Combined needs to factor of 180 
-n_splits = 9 # Number of k-fold splits, decrease this number if it doesn't work due to large m + n size
+n = 2 # Predict if price increases over the next n days. #Combined needs to factor of 180 
+n_splits = 10 # Number of k-fold splits, decrease this number if it doesn't work due to large m + n size
 
 def get_data_from_row(row):
     global models
@@ -100,14 +100,12 @@ def get_data_from_row(row):
     #     pass
 def test_models(X, Y, values):
     global n_splits, models
-    #try:
-    if True:
+    try:
         validation_size = 0.00
         seed = 7
         scoring = "accuracy"
         results = []
         names = []
-        
         for name, model in models:
             #print(name)
             kfold = model_selection.KFold(n_splits=n_splits, random_state=seed)
@@ -119,12 +117,11 @@ def test_models(X, Y, values):
             else:
                 values[name].append(cv_results.mean())
             msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
-            print(msg)
-    #except:
-        #pass
+            #print(msg)
+    except:
+        pass
 def test_models_on_cat(model_averages, headers, cat):
     #print("Category: "+ cat)
-    global prev_X, prev_Y
     df = pd.read_csv("item_graphs/"+cat+".csv", names=headers, index_col = 0)
     
     X = []
@@ -132,9 +129,8 @@ def test_models_on_cat(model_averages, headers, cat):
     # Calculating ML for each item in a category
     for index, row in df.iterrows():
         new_X, new_Y = get_data_from_row(row)
-        X.extend(new_X)
-        Y.extend(new_Y)
-    test_models(X, Y, model_averages)
+        if len(new_X) != 0:
+            test_models(new_X, new_Y, model_averages)
 
 def machine_learning():
     headers = []
