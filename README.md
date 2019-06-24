@@ -57,3 +57,19 @@ Surprisingly, I was completely wrong. The models trained on the entire grand exc
 #### 4. Use machine_learning_X.py to analyze the effectiveness of 5-6 ML models for predictions on this data.
 #### 5. Use the output of machine_learning_X.py to create tables of (m,n) pairs and model names along with accuracy %'s.
 #### Warning: Total Categories may change in the future, so change the number of categories in scrape_items.py and scrape_graph_info.py if it does.
+
+### File Descriptions:
+#### Tables - Contains images of accuracy values for models
+#### data_nov_18 - Data scraped November 18, 2018
+#### data_visualization - Contains image graphs of item values over last 180 days
+#### item_graphs - Contains 180 days worth of price data for all 5800 items on the Grand Exchange
+#### items_to_ids - Contains item names mapped to item ids on the Grand Exchange
+#### model_per_all - Contains accuracy values of models trained on the entire dataset (936,000 data points)
+#### model_per_category - Contains accuracy values of models trained on the each category (38 Categories)
+#### model_per_item - Contains accuracy values of models trained on each item (5800 items)
+#### data_vis.py -
+#### machine_learning_all.py -
+#### machine_learning_cat.py -
+#### machine_learning_item.py -
+#### scrape_graph_info.py -
+#### scrape_items.py -
