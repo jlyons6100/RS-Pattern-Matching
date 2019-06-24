@@ -11,7 +11,7 @@ Several other RuneScape players have had similar ideas. The initial idea was spa
 The item_graphs folder contains 38 CSV files, each corresponding to a different category of in-game item. The previous 180 days of price data for 5800 or so items is stored in csv files within. I created graphs of daily item prices to the data_visaulization folder to see trends visually before working on the machine learning models. Unsuitable items: Too flat - price doesn't fluctuate much, if at all in the short term. Only increasing/decreasing - There will only be one class. Whichever models I use won't have any way to determine what the opposite class looks like.
 
 ### Methods: 
-It would be complicated to exactly predict the price. Instead I simplified my problem statement. I will predict whether prices will increase in the next n days, using prices from the past m days. For an individual item, start at 180 days ago. Train using day -180 to day -180+m. Predict on -180+m+n. Repeat. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. As a beginning to ML, I'm not sure that a model trained on all of the data in the Grand Exchange would be more accurate than if I tailored my models to the individual items. I will test out the theory that the ML models are more accurate for single items through the following methods. I will train models for every item on Grand Exchange. Then I'll train model(s) on each category of data (Must normalize data). Finally I'll train models using normalized data from every item at once. No significant difference in % chance of a price increase despite these three approaches, possibly indicating that there aren't many categorical trends or trends for the entire market in the short term. Compare. TODO: Everything here
+It would be complicated to exactly predict the price. Instead I simplified my problem statement. I will predict whether prices will increase in the next n days, using prices from the past m days. For an individual item, start at 180 days ago. Train using day -180 to day -180+m. Predict on -180+m+n. Repeat. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. As a beginning to ML, I'm not sure that a model trained on all of the data in the Grand Exchange would be more accurate than if I tailored my models to the individual items. I will test out the theory that the ML models are more accurate for single items through the following methods. I will train models for every item on Grand Exchange. Then I'll train model(s) on each category of data (Must normalize data). Finally I'll train models using normalized data from every item at once. No significant difference in % chance of a price increase despite these three approaches, possibly indicating that there aren't many categorical trends or trends for the entire market in the short term. Compare. 
 
 ### Results: 
 ![Table 1](https://github.com/jlyons6100/RS-Pattern-Matching/blob/master/Tables/Table%201.png)
@@ -32,12 +32,11 @@ Issue 4: Rarely a pyplot returns an error when I try to save it as a figure. Sol
 
 3. Cleaned data. Completely flat line plots aren't useful. Price doesn't change enough to profit. Also eliminated plots where the price stayed the same for multiple weeks at a time. Additionally, highly irregular graphs can indicate special circumstances such as Price Manipulation (Large groups of people artificially raise price to profit) and obsolete items (With the introduction of new better items, some older items are no longer traded) 
 
-4. Created 3 machine_learning_X.py files. Outputs saved to simple text files, model names next to accuracies. TODO: Create table of accuracy values for visualization.
+4. Created 3 machine_learning_X.py files. Outputs saved to simple text files, model names next to accuracies. 
 Issue 5: I don't know anything about machine learning. I solved this issue by reading an introduction to machine learning on a programming site and working through "Hello World" type Machine Learning programs.
 Issue 6: SVM with an rbf kernel was running infinitely on an input dataset of 936,000 points. I solved this by reading that on "above the 200,000 observation range, it's wise to pick linear learners." Since I have nearly a million observations, I don't think it would be wise for me to use SVM  in this case.
 
 ### How to Use:
-
 #### 1. Run scrape_items.py (Scrapes full list of RuneScape item names and ids).
 #### 2. Run scrape_graph_info.py(Scrape item price for the last 180 Days) 
 #### 3. Use data_vis.py to iterate through item price graphs and create simple line plots of them.
@@ -59,5 +58,4 @@ Issue 6: SVM with an rbf kernel was running infinitely on an input dataset of 93
 #### machine_learning_cat.py - Generates accuracy values for models trained on each category
 #### machine_learning_item.py - Generates accuracy values for models trained on individual items
 #### scrape_graph_info.py - Stores item price from the last 180 Days in csv files labeled by category using the Grand Exchange Database API. WARNING: The Grand Exchange has many items, may take 10+ hours to scrape fully
-
 #### scrape_items.py - Scrapes item names & item ids to a csv file using the Grand Exchange Database API. WARNING: The Grand Exchange has many items, may take multiple hours to scrape all data 
