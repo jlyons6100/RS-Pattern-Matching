@@ -1,0 +1,51 @@
+Model Averages for Miscellaneous Category: (7,7)
+Model Averages for Ammo Category: (7,7)
+Model Averages for Arrows Category: (7,7)
+Model Averages for Bolts Category: (7,7)
+Model Averages for Construction_Materials Category: (7,7)
+Model Averages for Construction_Projects Category: (7,7)
+Model Averages for Cooking_Ingredients Category: (7,7)
+Model Averages for Costumes Category: (7,7)
+Model Averages for Crafting_Materials Category: (7,7)
+Model Averages for Familiars Category: (7,7)
+Model Averages for Farming_Produce Category: (7,7)
+Model Averages for Fletching_Materials Category: (7,7)
+Model Averages for Food_and_Drink Category: (7,7)
+Model Averages for Herblore_Materials Category: (7,7)
+Model Averages for Hunting_Equipment Category: (7,7)
+Model Averages for Hunting_Produce Category: (7,7)
+Model Averages for Jewellery Category: (7,7)
+Model Averages for Mage_Armour Category: (7,7)
+Model Averages for Mage_Weapons Category: (7,7)
+Model Averages for Melee_Armor_Low_Level Category: (7,7)
+Model Averages for Melee_Armor_Mid_Level Category: (7,7)
+Model Averages for Melee_Armor_High_Level Category: (7,7)
+Model Averages for Melee_Weapons_Low_Level Category: (7,7)
+Model Averages for Melee_Weapons_Mid_Level Category: (7,7)
+Model Averages for Melee_Weapons_High_Level Category: (7,7)
+Model Averages for Mining_and_Smithing Category: (7,7)
+Model Averages for Potions Category: (7,7)
+Model Averages for Prayer_Armour Category: (7,7)
+Model Averages for Prayer_Materials Category: (7,7)
+Model Averages for Range_Armour Category: (7,7)
+Model Averages for Range_Weapons Category: (7,7)
+Model Averages for Runecrafting Category: (7,7)
+Model Averages for Runes_Spells_Teleports Category: (7,7)
+Model Averages for Seeds Category: (7,7)
+Model Averages for Summoning_Scrolls Category: (7,7)
+Model Averages for Tools_and_Containers Category: (7,7)
+Model Averages for Woodcutting_Products Category: (7,7)
+Model Averages for Pocket_Items Category: (7,7)
+Overall Averages: (7,7)
+LogisticRegression
+0.5991410307630819
+LinearDiscriminantAnalysis
+0.5706951658010382
+KNeighborsClassifier
+0.5917299240910882
+DecisionTreeClassifier
+0.5615261685976846
+GaussianNB
+0.5325409508589695
+SVM w/ rbf kernel
+0.5887135437475015
