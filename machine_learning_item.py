@@ -39,8 +39,8 @@ models.append(('DecisionTreeClassifier', DecisionTreeClassifier()))
 models.append(('GaussianNB', GaussianNB()))
 models.append(('SVM w/ rbf kernel', SVC(gamma='auto', kernel='rbf')))
 
-m = 2 # Prices from the past m days
-n = 2 # Predict if price increases over the next n days. #Combined needs to factor of 180 
+m = 7 # Prices from the past m days
+n = 7 # Predict if price increases over the next n days. #Combined needs to factor of 180 
 n_splits = 10 # Number of k-fold splits, decrease this number if it doesn't work due to large m + n size
 
 def get_data_from_row(row):
@@ -66,38 +66,6 @@ def get_data_from_row(row):
     if len(true_set) == 1: 
         return [], []
     return X, Y
-
-    # try:
-    #     #validation_size = 0.00
-    #     #seed = 7
-    #     #scoring = "accuracy"
-    #     #X_train, X_validation, Y_train, Y_validation = model_selection.train_test_split(X, Y, test_size=validation_size, random_state=seed)
-        
-        
-    #     # if len(prev_X) == 0:
-    #     #     prev_X = X_train
-    #     #     prev_Y = Y_train
-    #     # else:
-    #     #     X_train.extend(prev_X)
-    #     #     Y_train.extend(prev_Y)
-    #     #     prev_X = X_train
-    #     #     prev_Y = Y_train
-    #     results = []
-    #     names = []
-        
-    #     for name, model in models:
-    #         print(name)
-    #         kfold = model_selection.KFold(n_splits=n_splits, random_state=seed)
-    #         cv_results = model_selection.cross_val_score(model, X_train, Y_train, cv=kfold, scoring=scoring)
-    #         results.append(cv_results)
-    #         names.append(name)
-    #         if name not in values:
-    #             values[name] = [cv_results.mean()]
-    #         else:
-    #             values[name].append(cv_results.mean())
-    #         msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
-    # except:
-    #     pass
 def test_models(X, Y, values):
     global n_splits, models
     try:
@@ -107,7 +75,6 @@ def test_models(X, Y, values):
         results = []
         names = []
         for name, model in models:
-            #print(name)
             kfold = model_selection.KFold(n_splits=n_splits, random_state=seed)
             cv_results = model_selection.cross_val_score(model, X, Y, cv=kfold, scoring=scoring)
             results.append(cv_results)
@@ -117,13 +84,11 @@ def test_models(X, Y, values):
             else:
                 values[name].append(cv_results.mean())
             msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
-            #print(msg)
     except:
         pass
 def test_models_on_cat(model_averages, headers, cat):
     #print("Category: "+ cat)
     df = pd.read_csv("item_graphs/"+cat+".csv", names=headers, index_col = 0)
-    
     X = []
     Y = []
     # Calculating ML for each item in a category
