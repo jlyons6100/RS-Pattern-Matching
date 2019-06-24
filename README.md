@@ -20,7 +20,9 @@
 
 ### Results: 
 ![Table 1](https://github.com/jlyons6100/RS-Pattern-Matching/blob/master/Tables/Table%201.png)
-TODO - Create table of accuracy values for each machine learning model and each value of (m,n).
+![Table 2](https://github.com/jlyons6100/RS-Pattern-Matching/blob/master/Tables/Table%202.png)
+![Table 3](https://github.com/jlyons6100/RS-Pattern-Matching/blob/master/Tables/Table%203.png)
+
 Surprisingly, I was completely wrong. The models trained on the entire grand exchange before slightly better than the models trained on categories and individual items. This difference increased with predictions further in the future.
 
 ### Summary of work and Issues:
