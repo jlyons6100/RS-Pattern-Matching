@@ -8,19 +8,19 @@
 
 ### Related Work:
 
-#### Several other RuneScape players have had similar ideas, but no finished research has been presented on the current version of the game (One paper on Old School RuneScape Grand Exchange, an older version of the game with a completely separate stock market).
+#### Several other RuneScape players have had similar ideas. The initial idea was sparked by a comment by a Jagex employee on a message board years ago stating that he had implemented a basic ML algorithm to predict item price changes and had made so much money in such a short time that the game's creators investigated him, thinking that he was cheating. 
 
 ### Dataset:
 
-#### The item_graphs contains 38 CSV files, each corresponding to a different category of in-game item. Added graphs of daily item price to see trends visually. Unsuitable graphs: Too flat, price doesn't flucuate much in the short term TODO: Go through each graph and determine which items are even suitable for machine learning. (Clean data)
+#### The item_graphs folder contains 38 CSV files, each corresponding to a different category of in-game item. The previous 180 days of price data for 5800 or so items is stored in csv files within. I created graphs of daily item prices to the data_visaulization folder to see trends visually before working on the machine learning models. Unsuitable items: Too flat - price doesn't fluctuate much, if at all in the short term. Only increasing/decreasing - There will only be one class. Whichever models I use won't have any way to determine what the opposite class looks like.
 
 ### Methods: 
 
-#### Complicated to exactly predict the price. Simplified problem statement. Predict whether prices will increase in the next n days, using prices from the past m days. Nice solution because I can use more of dataset. For an individual item, start at 180 days ago. Train using day -180 to day -180+m. Predict on -180+m+n. Repeat. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. Train model(s) for every item on Grand Exchange. Train model(s) on each category of data. Train models using normalized data from every item at once. No significant difference in % chance of a price increase despite these three approaches, possibly indicating that there aren't many categorical trends or trends for the entire market in the short term. Compare. TODO: Everything here
+#### It would be complicated to exactly predict the price. Instead I simplified my problem statement. I will predict whether prices will increase in the next n days, using prices from the past m days. For an individual item, start at 180 days ago. Train using day -180 to day -180+m. Predict on -180+m+n. Repeat. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. As a beginning to ML, I'm not sure that a model trained on all of the data in the Grand Exchange would be more accurate than if I tailored my models to the individual items. I will test out the theory that the ML models are more accurate for single items through the following methods. I will train models for every item on Grand Exchange. Then I'll train model(s) on each category of data (Must normalize data). Finally I'll train models using normalized data from every item at once. No significant difference in % chance of a price increase despite these three approaches, possibly indicating that there aren't many categorical trends or trends for the entire market in the short term. Compare. TODO: Everything here
 
-### Conclusions: 
-
-#### TODO
+### Results: 
+TODO - Create table of accuracy values for each machine learning model and each value of (m,n).
+Surprisingly, I was completely wrong. The models trained on the entire grand exchange before slightly better than the models trained on categories and individual items. This difference increased with predictions further in the future.
 
 ### Summary of work and Issues:
 
@@ -34,6 +34,10 @@
 
 ### 3. Cleaned data. Completely flat line plots aren't useful. Price doesn't change enough to profit. Also eliminated plots where the price stayed the same for multiple weeks at a time. Additionally, highly irregular graphs can indicate special circumstances such as Price Manipulation (Large groups of people artificially raise price to profit) and obsolete items (With the introduction of new better items, some older items are no longer traded) 
 
+### 4. Created 3 machine_learning_X.py files. Outputs saved to simple text files, model names next to accuracies. TODO: Create table of accuracy values for visualization.
+#### Issue 5: I don't know anything about machine learning. I solved this issue by reading an introduction to machine learning on a programming site and working through "Hello World" type Machine Learning programs.
+#### Issue 6: SVM with an rbf kernel was running infinitely on an input dataset of 936,000 points. I solved this by reading that on "above the 200,000 observation range, it's wise to pick linear learners." Since I have nearly a million observations, I don't think it would be wise for me to use SVM  in this case.
+
 ## How to Use:
 
 ### scrape_graph_info.py
@@ -46,5 +50,7 @@
 
 #### 1. Run scrape_items.py (Scrapes full list of RuneScape item names and ids).
 #### 2. Run scrape_graph_info.py(Scrape item price for the last 180 Days) 
-#### 3. Use machine_learning.py to analyze data (TODO)
+#### 3. Use data_vis.py to iterate through item price graphs and create simple line plots of them.
+#### 4. Use machine_learning_X.py to analyze the effectiveness of 5-6 ML models for predictions on this data.
+#### 5. Use the output of machine_learning_X.py to create tables of (m,n) pairs and model names along with accuracy %'s.
 #### Warning: Total Categories may change in the future, so change the number of categories in scrape_items.py and scrape_graph_info.py if it does.
