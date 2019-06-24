@@ -16,7 +16,7 @@
 
 ### Methods: 
 
-#### Complicated to exactly predict the price. Simplified problem statement. Predict whether prices will increase in the next n days, using prices from the past m days. Nice solution because I can use more of dataset. For an individual item, start at 180 days ago. Train using day -180 to day -180+m. Predict on -180+m+n. Repeat. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. Train model(s) for every item on Grand Exchange. Train model(s) on each category of data. Compare. TODO: Everything here
+#### Complicated to exactly predict the price. Simplified problem statement. Predict whether prices will increase in the next n days, using prices from the past m days. Nice solution because I can use more of dataset. For an individual item, start at 180 days ago. Train using day -180 to day -180+m. Predict on -180+m+n. Repeat. Models: Logistic Regression, Bayesian Network, Simple Neural Network, SVM with rbf kernel. Train model(s) for every item on Grand Exchange. Train model(s) on each category of data. Train models using normalized data from every item at once. No significant difference in % chance of a price increase despite these three approaches, possibly indicating that there aren't many categorical trends or trends for the entire market in the short term. Compare. TODO: Everything here
 
 ### Conclusions: 
 
