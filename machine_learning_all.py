@@ -6,10 +6,7 @@ import string
 import time
 import pandas as pd
 import numpy as np
-#import matplotlib.pyplot as plt
 from sklearn import preprocessing
-#from pandas.plotting import scatter_matrix
-#import matplotlib.pyplot as plt
 from sklearn import model_selection
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
@@ -98,5 +95,5 @@ def machine_learning(m, n):
     print("Testing Models:")
     test_models(all_X, all_Y)
 
-machine_learning(7,7) 
+machine_learning(4,2) 
 # Run with python3 -W ignore machine_learning.py  to suppress warnings about collinear variables   
