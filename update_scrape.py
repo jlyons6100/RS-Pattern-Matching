@@ -4,7 +4,7 @@ import json
 import os.path
 import string
 import time
-
+from copy import deepcopy
 # 22 total categories as of November 18, 2018
 # 38 total categories as of June 4, 2019
 cat_names = ["Miscellaneous","Ammo", "Arrows", "Bolts", "Construction_Materials"
@@ -20,33 +20,37 @@ item_cat_data = []
  
 # Reads in ids and names of all items in Grand Exchange from csv file
 def read_ids_from_csv():
-    # item_ids = {}
-    # with open('items_to_ids/'+cat+'.csv') as csvfile:
-    # with open('item_ids'+'.csv') as csvfile:
-    #     fieldnames = ['name', 'id']
-    #     reader = csv.DictReader(csvfile, fieldnames = fieldnames)
-    #     for row in reader:
-    #         item_ids[row['name']] = row['id']
-    # item_cat_data.append(item_ids)
     for i, cat in enumerate(cat_names):
-        # if i != 0:
-        #     continue
         item_ids = {}
-        # with open('items_to_ids/'+cat+'.csv') as csvfile:
         with open('items_to_ids/'+cat+'.csv') as csvfile:
+        # with open(cat+'.csv') as csvfile:
             fieldnames = ['name', 'id']
             reader = csv.DictReader(csvfile, fieldnames = fieldnames)
             for row in reader:
                 item_ids[row['name']] = row['id']
         item_cat_data.append(item_ids)
-
+header = None
+def get_old_data(cat):
+    old_data = {}
+    with open('database/'+cat+'.csv', 'r') as f:
+        # global header
+        d_reader = csv.DictReader(f)
+        # if header == None:
+            # header = d_reader.fieldnames
+        
+        for line in d_reader:
+            new_line = []
+            for value in (line.items()):
+                if value[0] != 'name':
+                    new_line.append(value)
+            old_data[line['name']] = new_line
+    return old_data
+    
 # Requests graph data for all items in Grand Exchange
 def scrape_graphs():
     for ind in  range(len(item_cat_data)):
-        # if ind != 0:
-        #     continue
-        item_graphs = {}
-        header = []
+        
+        old_data = get_old_data(cat_names[ind])
         for i, item_name in enumerate(item_cat_data[ind]):
             # if i > 5:
             #     continue
@@ -64,31 +68,53 @@ def scrape_graphs():
                 # print(parsed_json)
                 new_arr = []
                 for ms in parsed_json["daily"]:
-                    if len(header) != 180:
-                        # Days since 1970
-                        header.append(str(float(ms) / (1000 * 60 * 60 * 24)))
-                    new_arr.append(parsed_json["daily"][ms])  # Array goes from 180 days ago until now
-                item_graphs[item_name] = new_arr
+                    days = str(float(ms) / (1000 * 60 * 60 * 24))
+                    # if float(days) > float(header[len(header) - 1]):
+                    # # if not days in header:
+                    #     header.append(days)
+                        # new_arr.append(parsed_json["daily"][ms])  # Array goes from 180 days ago until now
+                    last_tup = old_data[item_name][len(old_data[item_name]) - 1]
+                    if len(old_data[item_name]) == 0 or float(days) > float(last_tup[0]):
+                        old_data[item_name].append((days,parsed_json["daily"][ms]))
+                
                 print(item_name)
             except:
-                print("Failed request: " + str(item_id))
-                continue
+                raise ValueError
+            # except:
+            #     print("Failed request: " + str(item_id))
+            #     continue
         # with open('item_graphs/'+cat_names[ind]+'.csv', 'w') as csvfile:
         with open('database/'+cat_names[ind]+'.csv', 'w') as csvfile:
-            fieldnames = ["name"] + header
+            # copy = deepcopy(old_data[item_name])
+            # del copy['name']
+            item_name = ""
+            for key in old_data:
+                item_name = key
+                break
+            # header = old_data[item_name][1:]
+            # del old_data['name']
+            # header = sorted(old_data.keys())
+            fieldnames = ['name'] + [tup[0] for tup in old_data[item_name]]
+
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
-            for item_name in item_graphs:
-                row_dict = {"name":item_name}
-                # for x in range(1, 180+1):
-                for i, t in enumerate(header):
-                    row_dict[t] = item_graphs[item_name][i]
+            # print(fieldnames)
+            # print(sorted(old_data[item_name]))
+            for item_name in old_data:
+                # if not item_name in old_data:
+                    # continue
+                row_dict = {'name':item_name}
+                for tup in sorted(old_data[item_name]):
+                    if tup[0] in fieldnames:
+                        row_dict[tup[0]] = tup[1]
                 # for x in item_graphs[item_name][0]:
                 #     row_dict[x] = item_graphs[name][0][x]
+                for day in fieldnames:
+                    if day not in row_dict:
+                        row_dict[day] = 'Error'
                 writer.writerow(row_dict)
-        print("Created Database Graph for Category: "+cat_names[ind])
+        print("Updated Graphs for Category: "+cat_names[ind])
         # exit(0)
 read_ids_from_csv()
-# print(item_cat_data)
 scrape_graphs()
 
