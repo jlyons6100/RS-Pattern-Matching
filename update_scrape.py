@@ -49,53 +49,47 @@ def get_old_data(cat):
 # Requests graph data for all items in Grand Exchange
 def scrape_graphs():
     for ind in  range(len(item_cat_data)):
-        
         old_data = get_old_data(cat_names[ind])
         for i, item_name in enumerate(item_cat_data[ind]):
-            # if i > 5:
-            #     continue
+            if item_name not in old_data:
+                continue
             item_id = item_cat_data[ind][item_name]
+            times_tried = 0
             while True:
                 try:
                     pg = urllib.request.urlopen('http://services.runescape.com/m=itemdb_rs/api/graph/'+str(item_id)+'.json') 
                     html = pg.read()
+                    time.sleep(5) # Without pause, Runescape API returns errors, too many requests too fast
+                    parsed_json = json.loads(html)
+                    new_arr = []
+                    for ms in parsed_json["daily"]:
+                        days = str(float(ms) / (1000 * 60 * 60 * 24))
+                        last_tup = old_data[item_name][len(old_data[item_name]) - 1]
+
+                        if  float(days) > float(last_tup[0]):
+                            old_data[item_name].append((days,parsed_json["daily"][ms]))
+                        else:
+                            try:
+                                prev_ind = old_data[item_name].index((days, '-1'))
+                                old_data[item_name][prev_ind] = (days,parsed_json["daily"][ms])
+                            except:
+                                pass
+                    print(item_name)
                     break
-                except:    
-                    pass
-            try:
-                time.sleep(5) # Without pause, Runescape API returns errors, too many requests too fast
-                parsed_json = json.loads(html)
-                # print(parsed_json)
-                new_arr = []
-                for ms in parsed_json["daily"]:
-                    days = str(float(ms) / (1000 * 60 * 60 * 24))
-                    # if float(days) > float(header[len(header) - 1]):
-                    # # if not days in header:
-                    #     header.append(days)
-                        # new_arr.append(parsed_json["daily"][ms])  # Array goes from 180 days ago until now
-                    last_tup = old_data[item_name][len(old_data[item_name]) - 1]
-                    if len(old_data[item_name]) == 0 or float(days) > float(last_tup[0]):
-                        old_data[item_name].append((days,parsed_json["daily"][ms]))
-                
-                print(item_name)
-            except:
-                raise ValueError
-            # except:
-            #     print("Failed request: " + str(item_id))
-            #     continue
-        # with open('item_graphs/'+cat_names[ind]+'.csv', 'w') as csvfile:
+                except:
+                    
+                    if times_tried < 30:
+                        print("Retrying request: " + str(item_name))
+                    else:
+                        print("Failed request: " + str(item_name))
+                        break
+                    times_tried += 1
         with open('database/'+cat_names[ind]+'.csv', 'w') as csvfile:
-            # copy = deepcopy(old_data[item_name])
-            # del copy['name']
             item_name = ""
             for key in old_data:
                 item_name = key
                 break
-            # header = old_data[item_name][1:]
-            # del old_data['name']
-            # header = sorted(old_data.keys())
             fieldnames = ['name'] + [tup[0] for tup in old_data[item_name]]
-
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             # print(fieldnames)
@@ -104,14 +98,12 @@ def scrape_graphs():
                 # if not item_name in old_data:
                     # continue
                 row_dict = {'name':item_name}
-                for tup in sorted(old_data[item_name]):
+                for tup in old_data[item_name]:
                     if tup[0] in fieldnames:
                         row_dict[tup[0]] = tup[1]
-                # for x in item_graphs[item_name][0]:
-                #     row_dict[x] = item_graphs[name][0][x]
                 for day in fieldnames:
                     if day not in row_dict:
-                        row_dict[day] = 'Error'
+                        row_dict[day] = '-1'
                 writer.writerow(row_dict)
         print("Updated Graphs for Category: "+cat_names[ind])
         # exit(0)

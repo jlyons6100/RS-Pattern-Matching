@@ -36,6 +36,9 @@ Issue 4: Rarely a pyplot returns an error when I try to save it as a figure. Sol
 Issue 5: I don't know anything about machine learning. I solved this issue by reading an introduction to machine learning on a programming site and working through "Hello World" type Machine Learning programs.
 Issue 6: SVM with an rbf kernel was running infinitely on an input dataset of 936,000 points. I solved this by reading that on "above the 200,000 observation range, it's wise to pick linear learners." Since I have nearly a million observations, I don't think it would be wise for me to use SVM  in this case.
 
+5. Next steps work: I realize that 1,000,000 data points isn't enough. I need to scrape more than 180 days worth of data. Updated scraping files to scrape dates along with item graphs. Wrote script to re-scrape Grand Exchange Daily.
+Issue 7: Randomized nature of Grand Exchange Updates: Found that the grand exchange database is updated sporadically. It always happens once a day, but the time of day varies wildly. Issue with recording data and having the Grand Exchange update midway through. Solved this by only putting data for the original header into the csv file. This means I end up losing some data for a particular category. Possible future solution: Moving to SQL database?
+
 ### How to Use:
 #### 1. Run scrape_items.py (Scrapes full list of RuneScape item names and ids).
 #### 2. Run scrape_graph_info.py(Scrape item price for the last 180 Days) 
