@@ -38,6 +38,8 @@ Issue 6: SVM with an rbf kernel was running infinitely on an input dataset of 93
 
 5. Next steps work: I realize that 1,000,000 data points isn't enough. I need to scrape more than 180 days worth of data. Updated scraping files to scrape dates along with item graphs. Wrote script to re-scrape Grand Exchange Daily.
 Issue 7: Randomized nature of Grand Exchange Updates: Found that the grand exchange database is updated sporadically. It always happens once a day, but the time of day varies wildly. Issue with recording data and having the Grand Exchange update midway through. Solved this by only putting data for the original header into the csv file. This means I end up losing some data for a particular category. Possible future solution: Moving to SQL database?
+Issue 8: Have to look back and see if I need to fill in any missed days. O(n) search, would be O(1) if I used a dictionary, but what's the point? The bottleneck of the program is the 5 second wait between requests.
+Issue 9: Have to assign default value to missing days just in case some items haven't updated in GE database ('-1') because no items can have a negative value 
 
 ### How to Use:
 #### 1. Run scrape_items.py (Scrapes full list of RuneScape item names and ids).
